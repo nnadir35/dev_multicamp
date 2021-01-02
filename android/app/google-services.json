@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "357196083978",
+    "project_id": "dev-multicamp",
+    "storage_bucket": "dev-multicamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357196083978:android:15b47ce1209f795942c0f3",
+        "android_client_info": {
+          "package_name": "com.example.dev_multicamp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357196083978-13p95jf1h4v8j8mlb8et1ib555qi5f3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPjHn0eUJwRvXSfdoaBIorQU-NautxNIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357196083978-13p95jf1h4v8j8mlb8et1ib555qi5f3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
