@@ -1,6 +1,6 @@
 import 'package:dev_multicamp/about_dev.dart';
 import 'package:dev_multicamp/licences.dart';
-import 'package:dev_multicamp/welcome.dart';
+import 'package:dev_multicamp/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +36,7 @@ class _DrawersState extends State<Drawers> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => Welcome(),
+                          builder: (_) => LoginPage(),
                         ),
                         (Route<dynamic> route) => false);
                   },
@@ -45,7 +45,7 @@ class _DrawersState extends State<Drawers> {
                   onTap: () => Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => Welcome(),
+                        builder: (_) => LoginPage(),
                       ),
                       (Route<dynamic> route) => false),
                   child: Text(

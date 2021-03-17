@@ -1,5 +1,4 @@
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:dev_multicamp/component.dart';
 import 'package:dev_multicamp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,73 +24,33 @@ class _SignInStateState extends State<SignInState> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.white60,
+        backgroundColor: Colors.grey[600],
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "GİRİŞ YAP",
-                  style: TextStyle(color: Colors.blueAccent, fontSize: 36),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.center,
                 ),
-              ),
-              buildPadding(_userMailController, true, "E-mail"),
-              buildPadding(_userPasswordController, false, "Şifre"),
-              buildRaisedButton()
-            ],
+                buildPadding(_userMailController, "E-mail",
+                    Icon(Icons.account_circle_rounded)),
+                buildPadding(
+                    _userPasswordController, "Şifre", Icon(Icons.vpn_key)),
+                buildRaisedButton("Giriş Yap", context, signIn)
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Padding buildPadding(
-      TextEditingController controller, bool autoFocus, String hintText) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        obscureText: hintText == "Şifre" ? true : false,
-        autofocus: autoFocus,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hoverColor: Colors.amber,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            borderSide: BorderSide(color: Colors.blueAccent),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            borderSide: BorderSide(color: Colors.blueAccent),
-          ),
-        ),
-        controller: controller,
-      ),
-    );
-  }
-
-  RaisedButton buildRaisedButton() {
-    return RaisedButton(
-      child: Text("GİRİŞ YAP"),
-      shape: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.blueAccent),
-      ),
-      onPressed: () {
-        signIn();
-        log(_userMailController.text);
-        log(_userPasswordController.text);
-      },
     );
   }
 
   signIn() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _userMailController.text,
-              password: _userPasswordController.text);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _userMailController.text,
+          password: _userPasswordController.text);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -106,16 +65,5 @@ class _SignInStateState extends State<SignInState> {
         showToast("Şifrenizi yanlış girdiniz.");
       }
     }
-  }
-
-  showToast(String text) {
-    return Fluttertoast.showToast(
-        msg: text,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }

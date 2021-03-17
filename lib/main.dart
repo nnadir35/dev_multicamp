@@ -9,22 +9,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:webfeed/webfeed.dart';
+
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_launcher_icons/android.dart';
-import 'package:flutter_launcher_icons/constants.dart';
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/ios.dart';
-import 'package:flutter_launcher_icons/main.dart';
-import 'package:flutter_launcher_icons/utils.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: "App",
-    home: MyHome(),
+    home: SplashPage(),
   ));
 }
 
@@ -108,30 +101,35 @@ class _RssViewerState extends State<RssViewer> {
               ? newsArray.length
               : queryArray.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WebViewExample(
-                        _searchBarController.text.length == 0
-                            ? newsArray[index].link
-                            : queryArray[index].link,
-                        _searchBarController.text.length == 0
-                            ? newsArray[index].title
-                            : queryArray[index].title),
-                  ),
-                );
-              },
-              title: _searchBarController.text.length == 0
-                  ? Text(newsArray[index].title)
-                  : Text(queryArray[index].title),
-              leading: CachedNetworkImage(
-                imageUrl: newsArray[index].imageUrl,
-                height: 50,
-                width: 70,
-                alignment: Alignment.center,
-                fit: BoxFit.fill,
+            return Card(
+              margin: EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+              child: ListTile(
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewExample(
+                          _searchBarController.text.length == 0
+                              ? newsArray[index].link
+                              : queryArray[index].link,
+                          _searchBarController.text.length == 0
+                              ? newsArray[index].title
+                              : queryArray[index].title),
+                    ),
+                  );
+                },
+                title: _searchBarController.text.length == 0
+                    ? Text(newsArray[index].title)
+                    : Text(queryArray[index].title),
+                leading: CachedNetworkImage(
+                  imageUrl: _searchBarController.text.length == 0
+                      ? newsArray[index].imageUrl
+                      : queryArray[index].imageUrl,
+                  height: 50,
+                  width: 70,
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                ),
               ),
             );
           },

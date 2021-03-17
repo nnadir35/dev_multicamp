@@ -20,8 +20,6 @@ class WebViewExampleState extends State<WebViewExample> {
   void initState() {
     super.initState();
     getShared();
-
-    // Enable hybrid composition.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
@@ -52,8 +50,7 @@ class WebViewExampleState extends State<WebViewExample> {
               children: [
                 IconButton(
                   icon: Icon(Icons.share),
-                  onPressed: () async =>
-                      await Share.share("Bu haberi arkadaşlarınla paylaş"),
+                  onPressed: () async => await Share.share(widget.url),
                 ),
               ],
             ),

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:dev_multicamp/component.dart';
 import 'package:dev_multicamp/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,21 +24,19 @@ class _SignUpState extends State<SignUpState> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.white60,
+        backgroundColor: Colors.grey[600],
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 alignment: Alignment.center,
-                child: Text(
-                  "KAYIT OL",
-                  style: TextStyle(color: Colors.blueAccent, fontSize: 36),
-                ),
               ),
-              buildPadding(_userMailController, true, "E-mail"),
-              buildPadding(_userPasswordController, false, "Şifre"),
-              buildRaisedButton()
+              buildPadding(_userMailController, "E-mail",
+                  Icon(Icons.account_circle_rounded)),
+              buildPadding(
+                  _userPasswordController, "Şifre", Icon(Icons.vpn_key)),
+              buildRaisedButton("Kayıt ol", context, createAccount)
             ],
           ),
         ),
@@ -46,48 +44,9 @@ class _SignUpState extends State<SignUpState> {
     );
   }
 
-  Padding buildPadding(
-      TextEditingController controller, bool autoFocus, String hintText) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        obscureText: hintText == "Şifre" ? true : false,
-        autofocus: autoFocus,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hoverColor: Colors.amber,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            borderSide: BorderSide(color: Colors.blueAccent),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            borderSide: BorderSide(color: Colors.blueAccent),
-          ),
-        ),
-        controller: controller,
-      ),
-    );
-  }
-
-  RaisedButton buildRaisedButton() {
-    return RaisedButton(
-      child: Text("KAYIT OL"),
-      shape: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        borderSide: BorderSide(color: Colors.blueAccent),
-      ),
-      onPressed: () {
-        log(_userMailController.text);
-        log(_userPasswordController.text);
-        createAccount();
-      },
-    );
-  }
-
   createAccount() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: _userMailController.text,
             password: _userPasswordController.text,
@@ -103,11 +62,14 @@ class _SignUpState extends State<SignUpState> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        showToast("The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        showToast('The account already exists for that email.');
       }
     } catch (e) {
       print(e);
+      showToast(e);
     }
   }
 }

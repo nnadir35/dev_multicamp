@@ -1,4 +1,4 @@
-import 'package:dev_multicamp/welcome.dart';
+import 'package:dev_multicamp/login_page.dart';
 import 'package:flutter/material.dart';
 
 class MyHome extends StatelessWidget {
@@ -24,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
     ).then(
       (value) => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Welcome()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       ),
     );
   }
